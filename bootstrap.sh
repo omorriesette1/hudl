@@ -9,7 +9,7 @@ echo "Updated OS Packages ..."
 
 # Install mysql
 echo "Installing MYSQL Packages ..."
-yum -y install mysql mysql-devel mysql-server MySQL-python
+yum --nogpgcheck -y install mysql mysql-devel mysql-server MySQL-python
 
 # Ensure we auto start mysql 
 chkconfig mysqld on
