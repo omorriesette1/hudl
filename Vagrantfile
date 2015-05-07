@@ -6,13 +6,28 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
+  config.vm.box = "hansode/centos-6.6-x86_64"
+#  config.vm.provision :shell, path: "bootstrap.sh"
+
+  config.vm.define "prod" do |prod|
+    prod.vm.box = "production"
+    prod.vm.hostname = "hudl-prod"
+    config.vm.provision :shell, path: "prod-bootstrap.sh"
+  end
+
+  config.vm.define "dev" do |dev|
+    dev.vm.box = "development"
+    dev.vm.hostname = "hudl-prod"
+    config.vm.provision :shell, path: "dev-bootstrap.sh"
+  end
+
+end
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "hansode/centos-6.6-x86_64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -68,4 +83,3 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-end
