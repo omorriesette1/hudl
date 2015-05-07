@@ -7,18 +7,15 @@
 # you're doing.
 Vagrant.configure(2) do |config|
   config.vm.box = "hansode/centos-6.6-x86_64"
-#  config.vm.provision :shell, path: "bootstrap.sh"
+  config.vm.provision :shell, path: "bootstrap.sh"
 
   config.vm.define "prod" do |prod|
-    prod.vm.box = "production"
     prod.vm.hostname = "hudl-prod"
-    config.vm.provision :shell, path: "prod-bootstrap.sh"
+    prod.vm.provision :shell, path: "db_configure.py"
   end
 
   config.vm.define "dev" do |dev|
-    dev.vm.box = "development"
-    dev.vm.hostname = "hudl-prod"
-    config.vm.provision :shell, path: "dev-bootstrap.sh"
+    dev.vm.hostname = "hudl-dev"
   end
 
 end

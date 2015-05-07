@@ -8,13 +8,13 @@ echo "Updated OS Packages ..."
 #yum -y update
 
 # Install mysql
-echo "Installing mysql ..."
-yum -y install mysql
+echo "Installing MYSQL Packages ..."
+yum -y install mysql mysql-devel mysql-server MySQL-python
 
 # Ensure we auto start mysql 
 chkconfig mysqld on
 chkconfig --list mysqld
-
+service mysqld start
 
 
 # Create Hudl User
@@ -24,7 +24,9 @@ useradd hudl
 usermod -p $(echo demo | openssl passwd -1 -stdin) hudl
 echo "DONE"
 
-
+# Create db user
+mysql -uroot -e "CREATE USER 'hudl'@'localhost' IDENTIFIED BY 'demo'"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON * . * TO 'hudl'@'localhost'"
 
 
 # Add user to necessary groups
