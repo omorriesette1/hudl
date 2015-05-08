@@ -1,3 +1,4 @@
+0. Modify ntp file for syncing 
 1. Create ssh keys so machines can scp information
 2. ON PROD my.cnf with the following under [mysqld]
     server-id = 1
