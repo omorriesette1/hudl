@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo "----- HUDL DEMO BOOTSTRAP v1.0 -----"
+echo "------ HUDL DEMO BOOTSTRAP v1.0 ------"
 # This file will simply make a few modifications on top of a base centos 6.6 image
 
 # Ensure OS Packages are updated

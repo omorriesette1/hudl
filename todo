@@ -1,0 +1,58 @@
+1. Create ssh keys so machines can scp information
+2. ON PROD my.cnf with the following under [mysqld]
+    server-id = 1
+    binlog-do-db=tecmint
+    relay-log = /var/lib/mysql/mysql-relay-bin
+    relay-log-index = /var/lib/mysql/mysql-relay-bin.index
+    log-error = /var/lib/mysql/mysql.err
+    master-info-file = /var/lib/mysql/mysql-master.info
+    relay-log-info-file = /var/lib/mysql/mysql-relay-log.info
+    log-bin = /var/lib/mysql/mysql-bin
+3.  restart mysqld service
+4.  GRANT REPLICATION SLAVE ON *.* TO 'hudl'@'%' IDENTIFIED BY 'demo';
+    FLUSH PRIVILEGES;
+    FLUSH TABLES WITH READ LOCK;
+    SHOW MASTER STATUS;
+
+    **Gather mysql-bin.#### and Position
+
+5. mysqldump -u root -p --all-databases --master-data > /root/dbdump.db
+   UNLOCK TABLES;
+
+6. scp /root/dbdump.db root@192.168.1.2:/root/
+
+SLAVE
+
+7. Edit my.cnf under [mysql]:
+    server-id = 2
+    master-host=192.168.1.1
+    master-connect-retry=60
+    master-user=slave_user
+    master-password=yourpassword
+    replicate-do-db=tecmint
+    relay-log = /var/lib/mysql/mysql-relay-bin
+    relay-log-index = /var/lib/mysql/mysql-relay-bin.index
+    log-error = /var/lib/mysql/mysql.err
+    master-info-file = /var/lib/mysql/mysql-master.info
+    relay-log-info-file = /var/lib/mysql/mysql-relay-log.info
+    log-bin = /var/lib/mysql/mysql-bin
+
+8. mysql -u root -p < /root/dbdump.db
+9. service mysqld restart
+10. Login to mysql and run:
+    slave stop;
+    CHANGE MASTER TO MASTER_HOST='192.168.50.10', MASTER_USER='hudl', MASTER_PASSWORD='demo', MASTER_LOG_FILE='mysql-bin.####', MASTER_LOG_POS=###;
+    slave start;
+    show slave status\G
+
+
+MASTER
+
+11. create new database entry
+
+SLAVE
+
+12. verify new database entry
+    use User_Profiles;
+    select * from profiles;
+

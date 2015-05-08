@@ -8,15 +8,18 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "hansode/centos-6.6-x86_64"
   config.vm.provision :shell, path: "bootstrap.sh"
-  config.vm.post_up_message = "Congratulation! Your Hudl Demo is up and running!"
 
   config.vm.define "prod" do |prod|
     prod.vm.hostname = "hudl-prod"
+    prod.vm.network :private_network, ip: "192.168.50.10"
     prod.vm.provision :shell, path: "db_configure.py"
+    prod.vm.post_up_message = "Congratulation! Your Production machine is up and running!"
   end
 
   config.vm.define "dev" do |dev|
     dev.vm.hostname = "hudl-dev"
+    dev.vm.network :private_network, ip: "192.168.50.20"
+    dev.vm.post_up_message = "Congratulation! Your Development machine is up and running!"
   end
 
 end
