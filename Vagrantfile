@@ -8,6 +8,7 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "hansode/centos-6.6-x86_64"
   config.vm.provision :shell, path: "bootstrap.sh"
+  config.vm.post_up_message = "Congratulation! Your Hudl Demo is up and running!"
 
   config.vm.define "prod" do |prod|
     prod.vm.hostname = "hudl-prod"
