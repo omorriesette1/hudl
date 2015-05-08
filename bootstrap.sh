@@ -28,6 +28,8 @@ echo "DONE"
 mysql -uroot -e "CREATE USER 'hudl'@'localhost' IDENTIFIED BY 'demo'"
 mysql -uroot -e "GRANT ALL PRIVILEGES ON * . * TO 'hudl'@'localhost'"
 
+# Generating Keys
+sudo su - hudl -c 'ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa'
 
 # Add user to necessary groups
 # Modify the sudoers file
@@ -58,7 +60,7 @@ echo -e "\033[1;32m
 
 \033[0;35m+++++++++++++++++: \033[0;37mSYSTEM DATA\033[0;35m :++++++++++++++++++++++
 +  \033[0;37mHostname \033[0;35m= \033[1;32m`hostname`
-\033[0;35m+   \033[0;37mAddress \033[0;35m= \033[1;32m`ifconfig eth0 | grep addr:[0-9] | awk '{print $2}' | cut -d: -f2`
+\033[0;35m+   \033[0;37mAddress \033[0;35m= \033[1;32m`ifconfig eth1 | grep addr:[0-9] | awk '{print $2}' | cut -d: -f2`
 \033[0;35m+    \033[0;37mKernel \033[0;35m= \033[1;32m`uname -r`
 \033[0;35m+    \033[0;37mUptime \033[0;35m=\033[1;32m`uptime | sed 's/.*up ([^,]*),.*/1/'`
 \033[0;35m+       \033[0;37mCPU \033[0;35m= \033[1;32m4x Intel(R) Xeon(R) E5620 @ 2.40GHz
@@ -76,3 +78,8 @@ echo -e $Color_off
 EOF
 chmod +x /usr/local/bin/hudl-motd
 echo "/usr/local/bin/hudl-motd" >> /etc/profile
+
+# Allow hudl user
+echo "AllowUsers hudl" >> /etc/ssh/sshd_config
+
+
