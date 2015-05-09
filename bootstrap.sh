@@ -16,27 +16,16 @@ chkconfig mysqld on
 chkconfig --list mysqld
 service mysqld start
 
-
-# Create Hudl User
-# Add Users
-echo -n "Creating a hudl general user ...."
-useradd hudl
-usermod -p $(echo demo | openssl passwd -1 -stdin) hudl
-echo "DONE"
-
 # Create db user
 mysql -uroot -e "CREATE USER 'hudl'@'localhost' IDENTIFIED BY 'demo'"
 mysql -uroot -e "GRANT ALL PRIVILEGES ON * . * TO 'hudl'@'localhost'"
 
 # Generating Keys
-sudo su - hudl -c 'ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa'
+#sudo su - hudl -c 'ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa'
 
-# Add user to necessary groups
-# Modify the sudoers file
-echo "Giving hudl sudo privileges ...."
-usermod -G wheel hudl
-perl -npe 's/# %wheel/%wheel/' -i /etc/sudoers
-
+# Edit hosts file
+echo "192.168.50.10	hudl-prod" >> /etc/hosts
+echo "192.168.50.20	hudl-dev" >> /etc/hosts
 
 # Customize MOTD
 echo "Creating Dynamic MOTD ..."
@@ -72,14 +61,9 @@ echo -e "\033[1;32m
 \033[0;35m+ \033[0;37mProcesses \033[0;35m= \033[1;32m$PROCCOUNT of `ulimit -u` MAX
 \033[0;35m++++++++++++++++++: \033[0;37mLAST LOGIN\033[0;35m :+++++++++++++++++++++++
 +\033[0;37m \033[1;32m`lastlog -u $USER | grep $USER`
-\033[0;35m++++++++++++++++++++++++++++++++
+\033[0;35m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 "
 echo -e $Color_off
 EOF
 chmod +x /usr/local/bin/hudl-motd
 echo "/usr/local/bin/hudl-motd" >> /etc/profile
-
-# Allow hudl user
-echo "AllowUsers hudl" >> /etc/ssh/sshd_config
-
-

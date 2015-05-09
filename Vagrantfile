@@ -6,20 +6,18 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
-  config.vm.box = "hansode/centos-6.6-x86_64"
+  config.vm.box = "chef/centos-6.6"
   config.vm.provision :shell, path: "bootstrap.sh"
 
   config.vm.define "prod" do |prod|
     prod.vm.hostname = "hudl-prod"
     prod.vm.network :private_network, ip: "192.168.50.10"
     prod.vm.provision :shell, path: "db_configure.py"
-    prod.vm.post_up_message = "Congratulation! Your Production machine is up and running!"
   end
 
   config.vm.define "dev" do |dev|
     dev.vm.hostname = "hudl-dev"
     dev.vm.network :private_network, ip: "192.168.50.20"
-    dev.vm.post_up_message = "Congratulation! Your Development machine is up and running!"
   end
 
 end
