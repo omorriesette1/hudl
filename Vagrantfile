@@ -4,11 +4,11 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "chef/centos-6.6"
   config.vm.provision :shell, path: "bootstrap.sh"
+  config.vm.provision :shell, path: "mydb.py"
 
   config.vm.define "master" do |master|
     master.vm.hostname = "prod-master"
     master.vm.network :private_network, ip: "192.168.50.10"
-    master.vm.provision :shell, path: "db_configure.py"
   end
 
   config.vm.define "slave" do |slave|

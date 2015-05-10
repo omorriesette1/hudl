@@ -43,7 +43,7 @@ case ${HOST} in
 		echo "192.168.50.10 prod-master" >> ${HOSTFILE}
                 echo "192.168.50.20 prod-slave" >> ${HOSTFILE}
 		echo "172.168.50.20 hudl-dev" >> ${HOSTFILE}
-		mkdir -p /home/vagrant/mysql{backups,backup_logs}
+		mkdir -p /home/vagrant/data/backups
 		echo "[xtrabackup]\ntarget_dir=/home/vagrant/backups/" >> /etc/my.cnf
 		;;
     ${DEV})
