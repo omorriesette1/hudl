@@ -7,9 +7,13 @@ echo "------ HUDL DEMO BOOTSTRAP v1.0 ------"
 echo "Updated OS Packages ..."
 #yum -y update
 
-# Install mysql
-echo "Installing MYSQL Packages ..."
-yum --nogpgcheck -y install mysql mysql-devel mysql-server MySQL-python
+# Setup Percona Repo
+echo "Installing Percona Repo (XtraBackup) ..."
+yum install --nogpgcheck http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+
+# Install mysql and xtrabackup
+echo "Installing Database Packages ..."
+yum --nogpgcheck -y install mysql mysql-devel mysql-server MySQL-python xtrabackup
 
 # Ensure we auto start mysql 
 chkconfig mysqld on
@@ -39,6 +43,8 @@ case ${HOST} in
 		echo "192.168.50.10 prod-master" >> ${HOSTFILE}
                 echo "192.168.50.20 prod-slave" >> ${HOSTFILE}
 		echo "172.168.50.20 hudl-dev" >> ${HOSTFILE}
+		mkdir -p /home/vagrant/mysql{backups,backup_logs}
+		echo "[xtrabackup]\ntarget_dir=/home/vagrant/backups/" >> /etc/my.cnf
 		;;
     ${DEV})
 		echo "172.168.50.10 prod-slave" >> ${HOSTFILE}
@@ -49,14 +55,12 @@ case ${HOST} in
 # Create Banner
 cat << 'EOF' > /etc/motd
 
-echo -e "
 
 * * * * * * * * * * * * * * * * * * * * * * * * * *
           WELCOME TO MY HUDL DEMO!
           BY: ORLANDO MORRIESETTE
 * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-"
 EOF
 
 perl -npe 's/#PrintMotd/PrintMotd/' -i /etc/ssh/sshd_config
