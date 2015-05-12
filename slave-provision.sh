@@ -1,6 +1,7 @@
 #! /bin/bash
 
 HOSTFILE="/etc/hosts"
+HOME="/home/vagrant"
 
 # Edit hosts file
 echo "192.168.50.10 prod-master master" >> ${HOSTFILE}
@@ -36,10 +37,11 @@ EOF
 
 
 # Create directory for backups
-mkdir -p /home/vagrant/backups/{daily,hourly}
-chown -R vagrant.vagrant /home/vagrant/backups
+mkdir -p $HOME/backups/{daily,hourly}
+chown -R vagrant.vagrant $HOME/backups
 
 # Configure Replication
 
 # Setting Auto Backup Cron Jobs
-cp /home/vagrant/slave/hourly-backup.sh /etc/cron.hourly/
+cp $HOME/slave/hourly-backup.sh /etc/cron.hourly/
+cp $HOME/slave/daily-backup.sh /etc/cron.daily/

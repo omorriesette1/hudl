@@ -1,4 +1,2 @@
 1. Add cron on prod-master to insert mysql data every so often
-2. Cron job to backupdb and stream over to dev
-3. Scrub dev db
 4. Code Clean up
