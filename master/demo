@@ -28,9 +28,10 @@ usage() {
     This script will setup database replication and enable periodic backups.
 
     OPTIONS:
-    -s, --start  : Automates complete configuration and setup of mysql replication and backup
-    -i, --insert : Create a new database entry
-    -v, --verify : Return the last 3 rows of the database
+    -s, : START - Automates complete configuration and setup of mysql replication and backup
+    -i, : INSERT - Create a new database entry
+    -v, : VERIFY - Return the last 3 rows of the database
+    -b, : BACKUP - Manually backup to dev and restore
     -h, --help  : Display this help message
 
 EOF
@@ -61,12 +62,13 @@ start(){
     fi
 
     # On Slave configure replication
-    ssh prod-slave "bash ~/slave/demo-slave.sh"
+    ssh prod-slave "bash ~/slave/demo-slave"
 }
 
 insert(){
 shift 
-if [ $# -ne 6 ]; then
+if [ $# -ne 4 ]; then
+echo $#
 # Usage
     echo ""
     echo "Usage: ${SCRIPT} --insert [NAME PASS EMAIL PHONE]"
@@ -100,7 +102,7 @@ echo
 case "$1" in
             -s|--start) start
 			;;
-	   -i|--insert) insert "$@" verify $@
+	   -i|--insert) insert "$@"
                         ;;
 	   -v|--verify) verify $@
 			;;

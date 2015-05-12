@@ -29,5 +29,4 @@ log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 EOF
 
-# Add master folder to path
-export PATH=$PATH:/home/vagrant/master
+echo "export PATH=$PATH:/home/vagrant/master" >> ~/.bashrc
