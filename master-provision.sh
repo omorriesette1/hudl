@@ -1,15 +1,20 @@
+#! /bin/bash
+
+HOSTFILE="/etc/hosts"
+
+# Edit hosts file
+echo "192.168.50.10 prod-master master" >> ${HOSTFILE}
+echo "192.168.50.20 prod-slave slave" >> ${HOSTFILE}
+
+# Edit my.cnf for replication
+cat << 'EOF' > /etc/my.cnf
 [mysqld]
 datadir=/var/lib/mysql
 socket=/var/lib/mysql/mysql.sock
 user=mysql
-# Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
-server-id = 2
-master-host=192.168.50.10
-master-connect-retry=30
-master-user=hudl
-master-password=demo
-replicate-do-db=User_Profiles
+server-id = 1
+binlog-do-db=User_Profiles
 relay-log = /var/lib/mysql/mysql-relay-bin
 relay-log-index = /var/lib/mysql/mysql-relay-bin.index
 log-error = /var/lib/mysql/mysql.err
@@ -20,3 +25,4 @@ log-bin = /var/lib/mysql/mysql-bin
 [mysqld_safe]
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
+EOF
