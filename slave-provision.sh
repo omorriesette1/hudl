@@ -45,3 +45,6 @@ chown -R vagrant.vagrant $HOME/backups
 # Setting Auto Backup Cron Jobs
 cp $HOME/slave/hourly-backup.sh /etc/cron.hourly/
 cp $HOME/slave/daily-backup.sh /etc/cron.daily/
+
+# Add slave scripts to path
+export PATH=$PATH:/home/vagrant/slave

@@ -28,3 +28,6 @@ sync_binlog=1
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 EOF
+
+# Add master folder to path
+export PATH=$PATH:/home/vagrant/master
