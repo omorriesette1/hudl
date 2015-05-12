@@ -21,8 +21,9 @@ master-connect-retry=30
 master-user=hudl
 master-password=demo
 replicate-do-db=User_Profiles
-relay-log = /var/lib/mysql/mysql-relay-bin
-relay-log-index = /var/lib/mysql/mysql-relay-bin.index
+relay-log=slave-relay-bin
+relay-log-index=slave-relay-bin.index
+relay-log=slave-relay-bin
 log-error = /var/lib/mysql/mysql.err
 master-info-file = /var/lib/mysql/mysql-master.info
 relay-log-info-file = /var/lib/mysql/mysql-relay-log.info
@@ -39,3 +40,6 @@ mkdir -p /home/vagrant/backups/{daily,hourly}
 chown -R vagrant.vagrant /home/vagrant/backups
 
 # Configure Replication
+
+# Setting Auto Backup Cron Jobs
+cp /home/vagrant/slave/hourly-backup.sh /etc/cron.hourly/

@@ -1,25 +1,22 @@
 #! /bin/bash
 
-USER="hudl"
-PASS="demo"
+set -e
+
 DATABASE="User_Profiles"
 MYSQL="mysql -uroot -e"
 
 # Cleaning up database
 echo "Dropping exisitng database and re-creating ..."
-#${MYSQL}"DROP DATABASE IF EXISTS ${DATABASE}"
+${MYSQL}"DROP DATABASE IF EXISTS ${DATABASE}"
 ${MYSQL}"CREATE DATABASE ${DATABASE}"
-${MYSQL}"USE ${DATABASE}"
-${MYSQL}"CREATE TABLE profiles (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, username VARCHAR(25), password VARCHAR(40), email VARCHAR(30), phone VARCHAR(20))"
+${MYSQL}"USE ${DATABASE}; CREATE TABLE profiles (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, username VARCHAR(25), password VARCHAR(40), email VARCHAR(30), phone VARCHAR(20))"
 
-# Decompressing file
-echo "Decompressing backup ..."
-BACKUP=${1}
+BACKUP="/home/vagrant/${DATABASE}.sql"
 
 # Restore backup and sanitize data
 echo "Restoring backup ..."
 echo ${DATABASE}
-mysql -u${USER} -p${PASS} ${DATABASE} < ${DATABASE}.sql
+mysql -uhudl -pdemo ${DATABASE} < ${BACKUP}
 
 echo "Sanitizing data ..."
 ${MYSQL}"USE User_Profiles; UPDATE profiles SET email = CONCAT('player', id, '@example.com'), phone = CONCAT('12', id, '-', '123', '-', '6789'), password = md5('admin');"

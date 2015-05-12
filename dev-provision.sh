@@ -37,3 +37,5 @@ EOF
 
 perl -npe 's/#PrintMotd/PrintMotd/' -i /etc/ssh/sshd_config
 service sshd restart
+
+cp /home/vagrant/slave/daily-backup.sh /etc/cron.daily/

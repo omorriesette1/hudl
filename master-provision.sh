@@ -21,6 +21,8 @@ log-error = /var/lib/mysql/mysql.err
 master-info-file = /var/lib/mysql/mysql-master.info
 relay-log-info-file = /var/lib/mysql/mysql-relay-log.info
 log-bin = /var/lib/mysql/mysql-bin
+innodb_flush_log_at_trx_commit=1
+sync_binlog=1
 
 [mysqld_safe]
 log-error=/var/log/mysqld.log

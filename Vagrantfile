@@ -10,9 +10,8 @@ Vagrant.configure(2) do |config|
     master.vm.hostname = "prod-master"
     master.vm.network :private_network, ip: "192.168.50.10"
     master.vm.provision "file", source: "./master/.ssh", destination: "~"
-    master.vm.provision "file", source: "./master/my.cnf", destination: "~/my.cnf"
-    master.vm.provision "shell", inline: "sudo mv /home/vagrant/my.cnf /etc"
-    master.vm.provision "file", source: "./master/demo.sh", destination: "~/demo.sh"
+    master.vm.synced_folder "master/", "/home/vagrant/master"
+    master.vm.provision :shell, path: "master-provision.sh"
   end
 
   config.vm.define "slave" do |slave|
@@ -20,15 +19,16 @@ Vagrant.configure(2) do |config|
     slave.vm.network :private_network, ip: "192.168.50.20"
     slave.vm.network :private_network, ip: "172.168.50.10"
     slave.vm.provision "file", source: "./slave/.ssh", destination: "~"
-    slave.vm.provision "file", source: "./slave/my.cnf", destination: "~/my.cnf"
-    slave.vm.provision "shell", inline: "sudo mv /home/vagrant/my.cnf /etc"
-    slave.vm.provision "file", source: "./slave/demo-slave.sh", destination: "~/demo-slave.sh"
+    slave.vm.synced_folder "slave/", "/home/vagrant/slave"
+    slave.vm.provision :shell, path: "slave-provision.sh"
   end
 
   config.vm.define "dev" do |dev|
     dev.vm.hostname = "hudl-dev"
     dev.vm.network :private_network, ip: "172.168.50.20"
     dev.vm.provision "file", source: "./dev/.ssh", destination: "~"
+    dev.vm.synced_folder "dev/", "/home/vagrant/dev"
+    dev.vm.provision :shell, path: "dev-provision.sh"
   end
 
 end
