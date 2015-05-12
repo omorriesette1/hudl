@@ -9,7 +9,7 @@ echo "Updated OS Packages ..."
 
 # Setup Percona Repo
 echo "Installing Percona Repo (XtraBackup) ..."
-yum install --nogpgcheck http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+yum install -y --nogpgcheck http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
 
 # Install mysql and xtrabackup
 echo "Installing Database Packages ..."
@@ -36,19 +36,18 @@ DEV="hudl-dev"
 
 case ${HOST} in
     ${MASTER})	
-		echo "192.168.50.10 prod-master" >> ${HOSTFILE}
-		echo "192.168.50.20 prod-slave" >> ${HOSTFILE}
+		echo "192.168.50.10 prod-master master" >> ${HOSTFILE}
+		echo "192.168.50.20 prod-slave slave" >> ${HOSTFILE}
 		;;
     ${SLAVE})
-		echo "192.168.50.10 prod-master" >> ${HOSTFILE}
-                echo "192.168.50.20 prod-slave" >> ${HOSTFILE}
-		echo "172.168.50.20 hudl-dev" >> ${HOSTFILE}
+		echo "192.168.50.10 prod-master master" >> ${HOSTFILE}
+                echo "192.168.50.20 prod-slave slave" >> ${HOSTFILE}
+		echo "172.168.50.20 hudl-dev dev" >> ${HOSTFILE}
 		mkdir -p /home/vagrant/data/backups
-		echo "[xtrabackup]\ntarget_dir=/home/vagrant/backups/" >> /etc/my.cnf
 		;;
     ${DEV})
-		echo "172.168.50.10 prod-slave" >> ${HOSTFILE}
-		echo "172.168.50.20 hudl-dev" >> ${HOSTFILE}
+		echo "172.168.50.10 prod-slave slave" >> ${HOSTFILE}
+		echo "172.168.50.20 hudl-dev dev" >> ${HOSTFILE}
 		;;
     esac
 
