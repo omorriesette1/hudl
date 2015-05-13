@@ -3,6 +3,12 @@
 echo "------ HUDL DEMO BOOTSTRAP v1.0 ------"
 # This file will simply make a few modifications on top of a base centos 6.6 image
 
+echo "1" > /proc/sys/net/ipv6/conf/default/disable_ipv6
+echo "NETWORKING_IPV6=no" >> /etc/sysconfig/network
+echo "IPV6INIT=no" >> /etc/sysconfig/network
+
+service network restart
+
 # Install mysql and its dependencies
 echo "Installing Database Packages ..."
 yum --nogpgcheck -y install mysql mysql-devel mysql-server MySQL-python
