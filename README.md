@@ -10,7 +10,6 @@ INSTRUCTIONS
 4. Run "demo -i "NAME" "PASS" "EMAIL" "PHONE"" to insert values into the database
 5. Run "demo -b" To backup data on the slave, send to the dev machine, and sanitize the data
 6. Run "demo -v" To verify all databases are in sync
-7. Login to the dev machine with the credentials below and verify the database is properly updated
 
 PROJECT SUMMARY
 ================
