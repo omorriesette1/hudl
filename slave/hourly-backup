@@ -1,9 +1,11 @@
 #! /bin/bash
 
-#BACKUP="~/backups/hourly/User_Profiles.sql"
+# Backup data and restore to dev machine
+echo "Backing up database ..."
+mysqldump -uhudl -pdemo --database User_Profiles > ~/backups/User_Profiles.sql
 
-mysqldump -uhudl -pdemo --database User_Profiles > User_Profiles.sql
-scp User_Profiles.sql hudl-dev:~
+scp ~/backups/User_Profiles.sql hudl-dev:~
 ssh hudl-dev ~/dev/restore-backup
 
+# Restart mysql services
 sudo service mysqld start

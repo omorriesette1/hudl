@@ -3,15 +3,7 @@
 echo "------ HUDL DEMO BOOTSTRAP v1.0 ------"
 # This file will simply make a few modifications on top of a base centos 6.6 image
 
-# Create bin directory
-mkdir ~/bin
-
-# Ensure OS Packages are updated
-echo "Updated OS Packages ..."
-#yum -y update
-
-
-# Install mysql and xtrabackup
+# Install mysql and its dependencies
 echo "Installing Database Packages ..."
 yum --nogpgcheck -y install mysql mysql-devel mysql-server MySQL-python
 
@@ -35,6 +27,7 @@ cat << 'EOF' > /etc/motd
 * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 EOF
-
 perl -npe 's/#PrintMotd/PrintMotd/' -i /etc/ssh/sshd_config
+
+# Restart ssh service
 service sshd restart

@@ -1,11 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Global configs across all machines
 Vagrant.configure(2) do |config|
   config.vm.box = "chef/centos-6.6"
   config.vm.provision :shell, path: "bootstrap.sh"
   config.vm.provision :shell, path: "mydb.py"
 
+  # Master server configurations
   config.vm.define "master" do |master|
     master.vm.hostname = "prod-master"
     master.vm.network :private_network, ip: "192.168.50.10"
@@ -14,6 +16,7 @@ Vagrant.configure(2) do |config|
     master.vm.provision :shell, path: "master-provision.sh"
   end
 
+  # Slave server configurations
   config.vm.define "slave" do |slave|
     slave.vm.hostname = "prod-slave"
     slave.vm.network :private_network, ip: "192.168.50.20"
@@ -23,6 +26,7 @@ Vagrant.configure(2) do |config|
     slave.vm.provision :shell, path: "slave-provision.sh"
   end
 
+  # Development server configurations
   config.vm.define "dev" do |dev|
     dev.vm.hostname = "hudl-dev"
     dev.vm.network :private_network, ip: "172.168.50.20"

@@ -4,11 +4,6 @@ MYSQL="mysql -uroot -e"
 REPINFO="~/repinfo"
 
 # Begin replication process on master
-#ssh vagrant@prod-master "bash ~/master/demo.sh"
-
-# Configure replication on slave
-#scp prod-master:~/User_Profiles.sql ~/backups
-
 if [ -f ${REPINFO} ]; then
     MASTER_LOG=`sed -n '1p' ${REPINFO}`
     MASTER_POS=`sed -n '2p' ${REPINFO}`

@@ -38,6 +38,7 @@ EOF
 exit 1;
 }
 
+
 # Begin Replication Setup
 start(){
     # On Master configure replication
@@ -65,6 +66,8 @@ start(){
     ssh prod-slave "bash ~/slave/demo-slave"
 }
 
+
+# Method for adding entries into the database
 insert(){
 shift 
 if [ $# -ne 4 ]; then
@@ -86,8 +89,9 @@ else
 fi
 }
 
+
+# Verify Master and Server is replicating
 verify(){
-# Print the last 3 entries entered in the database
 echo
 echo "====== MASTER DATABASE ======"
 ${MYSQL}"USE User_Profiles; SELECT * FROM profiles ORDER by ID ASC LIMIT 0,${2}"
@@ -99,15 +103,23 @@ ssh prod-slave "mysql -uroot -e 'USE User_Profiles; SELECT * FROM profiles ORDER
 echo
 }
 
+backup(){
+echo "Running backup on slave server ..."
+ssh prod-slave ~/hudl/slave/hourly-backup
+}
+
+
 case "$1" in
-            -s|--start) start
-			;;
-	   -i|--insert) insert "$@"
-                        ;;
-	   -v|--verify) verify $@
-			;;
-             -h|--help) usage
-                        ;;
-                     *) usage
-                        ;;
+	    -s) start
+		;;
+	    -i) insert "$@"
+                ;;
+	    -v) verify $@
+		;;
+	    -b) backup
+		;;
+     -h|--help) usage
+                ;;
+             *) usage
+                ;;
 esac

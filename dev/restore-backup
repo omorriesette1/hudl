@@ -18,5 +18,6 @@ echo "Restoring backup ..."
 echo ${DATABASE}
 mysql -uhudl -pdemo ${DATABASE} < ${BACKUP}
 
+# Clean data for dev
 echo "Sanitizing data ..."
 ${MYSQL}"USE User_Profiles; UPDATE profiles SET email = CONCAT('player', id, '@example.com'), phone = CONCAT('12', id, '-', '123', '-', '6789'), password = md5('admin');"

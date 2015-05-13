@@ -29,4 +29,5 @@ log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 EOF
 
+# Add scripts to path
 echo "export PATH=$PATH:/home/vagrant/master" >> ~/.bashrc
