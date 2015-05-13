@@ -39,14 +39,14 @@ to 200 gigabytes.
 IMPLEMENTATION
 ==============
 
-OS: Centos 6.6
-USER: vagrant
-PASSWORD: vagrant
-DATABASE: Mysql
-SERVERS: prod-master, prod-slave, hudl-dev
-BACKUP METHOD: Replication and mysqldump
-MACHINE SETUP: Vagrant
-NETWORK INTERFACES:
+-OS: Centos 6.6
+-USER: vagrant
+-PASSWORD: vagrant
+-DATABASE: Mysql
+-SERVERS: prod-master, prod-slave, hudl-dev
+-BACKUP METHOD: Replication and mysqldump
+-MACHINE SETUP: Vagrant
+-NETWORK INTERFACES:
 		    - MASTER: BRIDGED, HOSTONLY (NET 192)
 		    - SLAVE: BRIDGED, HOSTONLY (NET 192), HOSTONLY (NET 172)
 		    - DEV: BRIDGED, HOSTONLY (NET 172)
