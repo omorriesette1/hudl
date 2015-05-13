@@ -82,7 +82,7 @@ else
     local _pass=$2
     local _email=$3
     local _phone=$4
-
+    
     ${MYSQL}"Use User_Profiles; INSERT INTO profiles (id, username, password, email, phone) VALUES
     (NULL,'$_name', SHA1('$_pass'), '$_email', '$_phone')"
 fi
@@ -98,7 +98,7 @@ echo
 echo
 
 echo "====== SLAVE DATABASE ======"
-ssh prod-slave "mysql -uroot -e 'USE User_Profiles; SELECT * FROM profiles ORDER by ID ASC LIMIT 0,${2}'";
+ssh prod-slave "mysql -uroot -e 'USE User_Profiles; SELECT * FROM profiles ORDER by ID ASC LIMIT 0,${2}'"
 echo
 }
 
