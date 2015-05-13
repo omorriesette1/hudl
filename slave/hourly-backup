@@ -4,8 +4,8 @@
 echo "Backing up database ..."
 mysqldump -uhudl -pdemo --database User_Profiles > ~/backups/hourly/User_Profiles.sql
 
-scp ~/backups/User_Profiles.sql hudl-dev:~
-ssh hudl-dev ~/dev/restore-backup
+scp ~/backups/hourly/User_Profiles.sql hudl-dev:~
+ssh hudl-dev restore-backup
 
 # Restart mysql services
 sudo service mysqld start

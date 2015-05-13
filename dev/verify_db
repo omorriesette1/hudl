@@ -1,0 +1,10 @@
+#! /bin/bash
+
+# Variables
+MYSQL="mysql -uroot -e"
+
+# Verify DEV Database
+echo "====== DEV DATABASE ======"
+${MYSQL}"USE User_Profiles; SELECT * FROM profiles ORDER by ID ASC LIMIT 0,5"
+echo
+

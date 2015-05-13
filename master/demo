@@ -1,22 +1,23 @@
 #! /bin/bash
 
-# ***********************************************************
-#   Hudl Infrastructure Engineer Demo
-#   Version 1
-# ***********************************************************
+##########################################################################
 #
-# Options for the script
-# --start        Begin Replication
-# --help	 Usage
+# NAME: dotprod.sh
+# DATE: 5/11/2015
+# AUTHOR: Orlando Morriesette <o.morriesette1@gmail.com>
+# VERSION: 1.0
+# DESCRIPTION: This program configures replication on a production master
+#              and slave. It also allows you to enter database entries,
+#              verify those entries, and back up the data for a dev 
+#	       environment
 #
-# ***********************************************************
+##########################################################################
 
 set -e
 
 # Set Global Variables
 MYSQL="mysql -uroot -e"
 REPINFO="/home/vagrant/repinfo"
-
 
 # Usage
 SCRIPT=$(basename $0)
@@ -30,8 +31,8 @@ usage() {
     OPTIONS:
           -s, : Start the replication setup
           -i, : Insert a new entry in the master database
-          -v, : Verify the specified number of database row
-          -b, : Backup slave data and auto restore on the dev machine
+          -v, : Verify the last 5 rows in the database
+          -b, : Backup data on the slave and auto restore on the dev machine (scrubbed)
   -h, --help  : Display this help message
 
 EOF
@@ -42,6 +43,7 @@ exit 1;
 # Begin Replication Setup
 start(){
     # On Master configure replication
+    echo "Configuring replication on master ..."
     ${MYSQL}"GRANT REPLICATION SLAVE ON *.* TO hudl@192.168.50.20 IDENTIFIED BY 'demo'"
     ${MYSQL}"FLUSH PRIVILEGES"
     ${MYSQL}"USE User_Profiles"
@@ -73,7 +75,7 @@ shift
 if [ $# -ne 4 ]; then
 # Usage
     echo ""
-    echo "Usage: ${SCRIPT} --insert [NAME PASS EMAIL PHONE]"
+    echo "Usage: ${SCRIPT} --insert "NAME" "PASS" "EMAIL" "PHONE""
     echo ""
     exit 1;
 else
@@ -82,9 +84,17 @@ else
     local _pass=$2
     local _email=$3
     local _phone=$4
+
+    echo
+    echo "INSERT INTO profiles (id, username, password, email, phone) VALUES ($_name, $_pass, $_email, $_phone)"
     
     ${MYSQL}"Use User_Profiles; INSERT INTO profiles (id, username, password, email, phone) VALUES
     (NULL,'$_name', SHA1('$_pass'), '$_email', '$_phone')"
+fi
+
+if [ $? == "0" ];then
+    echo
+    echo "Database INSERT successful!"
 fi
 }
 
@@ -93,14 +103,19 @@ fi
 verify(){
 echo
 echo "====== MASTER DATABASE ======"
-${MYSQL}"USE User_Profiles; SELECT * FROM profiles ORDER by ID ASC LIMIT 0,${2}"
+${MYSQL}"USE User_Profiles; SELECT * FROM profiles ORDER by ID ASC LIMIT 0,5"
 echo 
 echo
 
 echo "====== SLAVE DATABASE ======"
-ssh prod-slave "mysql -uroot -e 'USE User_Profiles; SELECT * FROM profiles ORDER by ID ASC LIMIT 0,${2}'"
+ssh prod-slave "mysql -uroot -e 'USE User_Profiles; SELECT * FROM profiles ORDER by ID ASC LIMIT 0,5'"
 echo
+
+echo
+ssh prod-slave "ssh hudl-dev verify_db"
+echo 
 }
+
 
 backup(){
 echo "Running backup on slave server ..."
