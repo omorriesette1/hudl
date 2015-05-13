@@ -47,23 +47,23 @@ SERVERS: prod-master, prod-slave, hudl-dev
 BACKUP METHOD: Replication and mysqldump
 MACHINE SETUP: Vagrant
 NETWORK INTERFACES:
-		    MASTER: BRIDGED, HOSTONLY (NET 192)
-		    SLAVE: BRIDGED, HOSTONLY (NET 192), HOSTONLY (NET 172)
-		    DEV: BRIDGED, HOSTONLY (NET 172)
+		    - MASTER: BRIDGED, HOSTONLY (NET 192)
+		    - SLAVE: BRIDGED, HOSTONLY (NET 192), HOSTONLY (NET 172)
+		    - DEV: BRIDGED, HOSTONLY (NET 172)
 
 MASTER:
-	~./ssh - SSH Keys
-	~/master/demo - Main Script
+-	~./ssh - SSH Keys
+-	~/master/demo - Main Script
 
 SLAVE:
-	~./.ssh - SSH Keys
-	~/slave/daily-backup - Daily backup script
-	~/slave/demo-slave - Replication script for slave
-	~/slave/hourly-backup - Hourly backup script
+-	~./.ssh - SSH Keys
+-	~/slave/daily-backup - Daily backup script
+-	~/slave/demo-slave - Replication script for slave
+-	~/slave/hourly-backup - Hourly backup script
 
 DEV: 
-	~/.ssh - SSH Keys
-	~/dev/restore-backup - Database scrub and restore script
+-	~/.ssh - SSH Keys
+-	~/dev/restore-backup - Database scrub and restore script
 
 
 This implementation uses a master and a slave. The slave has 2 types of backups, hourly and daily.
