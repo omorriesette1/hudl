@@ -22,7 +22,7 @@ db_base = [db_create, db_useUP, table_create]
 # Setup hudl database for master and slave
 if socket.gethostname() in ("prod-slave", "prod-master"):
     for tasks in db_configure:
-	print query.execute(tasks)
+	query.execute(tasks)
 else:
     for tasks in db_base:
-	print query.execute(tasks)
+	query.execute(tasks)

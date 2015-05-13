@@ -13,7 +13,7 @@ echo "172.168.50.20 hudl-dev dev" >> ${HOSTFILE}
 cat << 'EOF' > /etc/my.cnf
 [mysqld]
 datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
+#socket=/var/lib/mysql/mysql.sock
 user=mysql
 symbolic-links=0
 server-id = 2
@@ -43,8 +43,8 @@ chown -R vagrant.vagrant $HOME/backups
 # Configure Replication
 
 # Setting Auto Backup Cron Jobs
-cp $HOME/slave/hourly-backup.sh /etc/cron.hourly/
-cp $HOME/slave/daily-backup.sh /etc/cron.daily/
+cp $HOME/slave/hourly-backup /etc/cron.hourly/
+cp $HOME/slave/daily-backup /etc/cron.daily/
 
 # Add slave scripts to path
 echo "export PATH=$PATH:/home/vagrant/slave" >> ~/.bashrc

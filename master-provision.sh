@@ -10,7 +10,7 @@ echo "192.168.50.20 prod-slave slave" >> ${HOSTFILE}
 cat << 'EOF' > /etc/my.cnf
 [mysqld]
 datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
+#socket=/var/lib/mysql/mysql.sock
 user=mysql
 symbolic-links=0
 server-id = 1
@@ -30,4 +30,4 @@ pid-file=/var/run/mysqld/mysqld.pid
 EOF
 
 # Add scripts to path
-echo "export PATH=$PATH:/home/vagrant/master" >> ~/.bashrc
+echo "export PATH=$PATH:/home/vagrant/master" >> /etc/bashrc

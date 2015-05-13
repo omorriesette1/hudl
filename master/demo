@@ -28,11 +28,11 @@ usage() {
     This script will setup database replication and enable periodic backups.
 
     OPTIONS:
-    -s, : START - Automates complete configuration and setup of mysql replication and backup
-    -i, : INSERT - Create a new database entry
-    -v, : VERIFY - Return the last 3 rows of the database
-    -b, : BACKUP - Manually backup to dev and restore
-    -h, --help  : Display this help message
+          -s, : Start the replication setup
+          -i, : Insert a new entry in the master database
+          -v, : Verify the specified number of database row
+          -b, : Backup slave data and auto restore on the dev machine
+  -h, --help  : Display this help message
 
 EOF
 exit 1;
@@ -71,7 +71,6 @@ start(){
 insert(){
 shift 
 if [ $# -ne 4 ]; then
-echo $#
 # Usage
     echo ""
     echo "Usage: ${SCRIPT} --insert [NAME PASS EMAIL PHONE]"
@@ -105,7 +104,7 @@ echo
 
 backup(){
 echo "Running backup on slave server ..."
-ssh prod-slave ~/hudl/slave/hourly-backup
+ssh prod-slave ~/slave/hourly-backup
 }
 
 
