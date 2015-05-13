@@ -5,11 +5,11 @@ VERSION: 1
 INSTRUCTIONS
 ============
 1. Run "vagrant up" from the root vagrant directory (directory with Vagrant file)
-2. Log into the master server using the credentials in the "implementation" section below
+2. Log into the master server (vagrant ssh master) using the credentials in the "implementation" section below
 3. Run "demo -s" to begin replication setup
 4. Run "demo -i "NAME" "PASS" "EMAIL" "PHONE"" to insert values into the database
-5. Run "demo -v" To verify the master and slave are in sync
-6. Run "demo -b" To backup data on the slave, send to the dev machine, and sanitize the data
+5. Run "demo -b" To backup data on the slave, send to the dev machine, and sanitize the data
+6. Run "demo -v" To verify all databases are in sync
 7. Login to the dev machine with the credentials below and verify the database is properly updated
 
 PROJECT SUMMARY
