@@ -11,7 +11,8 @@ service network restart
 
 # Install mysql and its dependencies
 echo "Installing Database Packages ..."
-yum --nogpgcheck -y install mysql mysql-devel mysql-server MySQL-python
+yum --nogpgcheck -y install vim-enhanced mysql mysql-devel mysql-server MySQL-python
+echo "alias vi='vim'" >> /etc/bashrc
 
 # Ensure we auto start mysql 
 chkconfig mysqld on
