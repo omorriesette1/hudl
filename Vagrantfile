@@ -3,7 +3,7 @@
 
 # Global configs across all machines
 Vagrant.configure(2) do |config|
-  config.vm.box = "chef/centos-6.6"
+  config.vm.box = "bento/centos-6.7"
   config.vm.provision :shell, path: "bootstrap.sh"
   config.vm.provision :shell, path: "mydb.py"
 
